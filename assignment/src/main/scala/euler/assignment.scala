@@ -1,6 +1,7 @@
-package euler
-
+//package euler
+println(ProjectEuler.problem4)
 object ProjectEuler {
+  
   /*
    * Even Fibonacci numbers
    *
@@ -12,7 +13,40 @@ object ProjectEuler {
    * By considering the terms in the Fibonacci sequence whose values do not
    * exceed four million, find the sum of the even-valued terms.
    */
-  def problem2(): Int = ???
+  def problem2(): Int = {
+    
+   
+    
+    def fib(n:Int) = fibTail(n,0,1)
+
+    def fibTail(n:Int, a:Long, b:Long):Long = {
+        if(n == 0)
+            a
+        else if(n == 1)
+            b
+        else 
+            fibTail(n-1,b,a+b)
+    }
+    
+     def findFibKeyUnderAmount(limit:Int):Int = {
+      def recurv(n:Int):Int = {
+        if(fib(n) > limit)
+          n - 1
+        else
+          recurv(n+1)
+      }
+      recurv(0);
+    }
+
+
+    val ebin = List.range(1,findFibKeyUnderAmount(4000000)+1)
+                                .map(fib)
+                                    .filter((x)=> x % 2 == 0)
+                                          .reduce((x,y) => x+y)
+    ebin.toInt
+
+  }
+  
 
   /*
    * Largest palindrome product
@@ -23,7 +57,31 @@ object ProjectEuler {
    * Find the largest palindrome made from the product of two 3-digit numbers.
    *
    */
-  def problem4(): Int = ???
+  def problem4(): Int = {
+    def isPalindrome(number:Int):Boolean = {
+      def goThrough(thing:String):Boolean = {
+        if(thing.length < 2)
+            true
+        else {
+          if(thing.head != thing.last)
+            false
+          else
+            goThrough(thing.tail.take(thing.length-2))
+        }
+      }
+      goThrough(number.toString)
+    }
+    
+    val ebin = List.range(100,1000)
+                      .flatMap((x) => List.range(x*100,x*1000,x))
+                              .filter(isPalindrome)
+                                      .max
+    ebin
+    
+    
+    
+    
+  }
 
   /*
    * Special Pythagorean triplet
@@ -36,7 +94,9 @@ object ProjectEuler {
    * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
    * Find the product abc.
    */
-  def problem9(): Int = ???
+  def problem9(): Int = {
+    2
+  }
 
 
   /*
@@ -55,7 +115,9 @@ object ProjectEuler {
    * Find the maximum total from top to bottom of the given triangle with 15
    * rows:
    */
-  def problem18(triangle: List[List[Int]]): Int = ???
+  def problem18(triangle: List[List[Int]]): Int = {
+    1
+  }
 
   /*
    * Maximum path sum II
@@ -79,5 +141,7 @@ object ProjectEuler {
    * would take over twenty billion years to check them all. There is an
    * efficient algorithm to solve it. ;o)
    */
-  def problem67(triangle: List[List[Int]]): Int = ???
+  def problem67(triangle: List[List[Int]]): Int = {
+    1
+  }
 }
