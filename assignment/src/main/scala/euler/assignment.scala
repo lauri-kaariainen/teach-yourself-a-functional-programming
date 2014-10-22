@@ -1,5 +1,8 @@
 //package euler
-println(ProjectEuler.problem4)
+//println(ProjectEuler.problem2)
+//println(ProjectEuler.problem4)
+//println(ProjectEuler.problem9)
+println(ProjectEuler.problem18)
 object ProjectEuler {
   
   /*
@@ -95,7 +98,67 @@ object ProjectEuler {
    * Find the product abc.
    */
   def problem9(): Int = {
-    2
+    def isPythagoreanTriplet(lista:List[Int]):Boolean = {
+      val a = lista(0)
+      val b = lista(1)
+      val c = lista(2)
+      a < b && b < c && (a*a + b*b) == (c*c)
+    }
+    
+    def isSpecialTriplet(lista:List[Int]):Boolean = {
+      val a = lista(0)
+      val b = lista(1)
+      val c = lista(2)  
+      a + b + c == 1000
+    }
+    
+    
+    def findProduct():Int={
+      def findTriplet(a:Int,b:Int,c:Int):List[Int]={
+        if(isSpecialTriplet(List(a,b,c)) && isPythagoreanTriplet(List(a,b,c)))
+          List(a,b,c)
+        else if(a > 333){
+            List(0,0,0)
+        }
+        else {
+          var aa = 0
+          var bb = 0
+          var cc = 0
+          //c rolled over
+          if(c > 699){
+             aa = a
+             bb = b+1
+             cc = 0
+
+          }
+          //b rolled over
+          else if(b > 699){
+               aa = a+1
+               bb = 0
+               cc = 0
+          }
+          else{
+             aa = a
+             bb = b
+             cc = c+1
+          }
+          
+          findTriplet(aa,bb,cc)      
+        }
+        
+      }
+        
+      
+      
+      val pythList = findTriplet(0,0,0)
+      pythList(0) * pythList(1) * pythList(2)
+      
+    }
+    
+    findProduct()
+    
+
+    
   }
 
 
