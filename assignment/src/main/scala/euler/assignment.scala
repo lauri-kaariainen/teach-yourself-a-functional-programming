@@ -180,24 +180,27 @@ object ProjectEuler {
    */
   def problem18(triangle: List[List[Int]]): Int = {
 
-    def recursiveTravel(depth:Int,width:Int,counter:Int,route:Int):Int={
+    def getRoutesSum(depth:Int,index:Int,counter:Int,route:Int):Int={
       if(depth == triangle.length){
         counter
       }
       else{
 
-        var newWidth = 0
+        var newindex = 0
+        //route:Int is used as a map through the tree. for example 3 == 0x0000 0011 
+        //means we took the right subtree in two last steps and left in all the rest
         if((route & (1 << (triangle.length - 2 - depth))) == 0){
-            newWidth = width
+            newindex = index
         }
         else
-          newWidth = width + 1
-        recursiveTravel(depth+1,newWidth,counter+triangle(depth)(width),route)
+          newindex = index + 1
+        getRoutesSum(depth+1,newindex,counter+triangle(depth)(index),route)
       }
     }
 
 
-    def travel(route:Int,highscore:Int):Int = {
+    def getMaxPathSum(route:Int,highscore:Int):Int = {
+      //are all possible routes got through
       if(route == (1 << triangle.length-1)){
       //  println("returning highscore: "+highscore)
         highscore
@@ -205,7 +208,7 @@ object ProjectEuler {
       //  println(route +":"+(1 << (triangle.length-1)))
       else{
         var newHigh = 0
-        val newScore = recursiveTravel(0,0,0,route)
+        val newScore = getRoutesSum(0,0,0,route)
         if(highscore > newScore){
           newHigh = highscore
         }
@@ -213,10 +216,10 @@ object ProjectEuler {
           newHigh = newScore
         //  println("highest route was "+route)
         }
-        travel(route + 1,newHigh)
+        getMaxPathSum(route + 1,newHigh)
       }
     }
-    travel(0,0)
+    getMaxPathSum(0,0)
 
   }
 
