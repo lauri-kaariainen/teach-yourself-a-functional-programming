@@ -243,6 +243,39 @@ object ProjectEuler {
    * efficient algorithm to solve it. ;o)
    */
   def problem67(triangle: List[List[Int]]): Int = {
-    1
+
+
+
+    def getLargerSumFromSubTrees(depth:Int,index:Int,list:List[List[Int]]):Int={
+      //left one was bigger
+      if(list(depth+1)(index) >= list(depth+1)(index+1)){
+        list(depth+1)(index)
+      }
+      //right one was
+      else{
+        list(depth+1)(index+1)
+      }
+    }
+    //lessen depth by 1 per run, start from the end
+    def recursivelyTighten(newList:List[List[Int]]):Int = {
+      val depth = newList.length - 2
+      if(depth == 0){
+        getLargerSumFromSubTrees(0,0,newList) + newList(0)(0)
+      }
+
+      else{
+        var result = List[Int]()
+        //array.tabulate is almost like a map-function with index
+        Array.tabulate(newList(depth).length){
+                    i => result = result ++ List[Int](newList(depth)(i) + getLargerSumFromSubTrees(depth,i,newList))}
+
+        val returnList = newList.take(newList.length-2) ++ List[List[Int]](result)
+
+        recursivelyTighten(returnList)
+      }
+    }
+    recursivelyTighten(triangle)
+
+
   }
 }
