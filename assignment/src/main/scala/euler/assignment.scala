@@ -256,8 +256,8 @@ object ProjectEuler {
         list(depth+1)(index+1)
       }
     }
-    //lessen depth by 1 per run, start from the end
-    def recursivelyTighten(newList:List[List[Int]]):Int = {
+    //lessen depth by 1 per run, until we have total max sum
+    def recursivelyThinArrayToFindMaxSum(newList:List[List[Int]]):Int = {
       val depth = newList.length - 2
       if(depth == 0){
         getLargerSumFromSubTrees(0,0,newList) + newList(0)(0)
@@ -271,10 +271,10 @@ object ProjectEuler {
 
         val returnList = newList.take(newList.length-2) ++ List[List[Int]](result)
 
-        recursivelyTighten(returnList)
+        recursivelyThinArrayToFindMaxSum(returnList)
       }
     }
-    recursivelyTighten(triangle)
+    recursivelyThinArrayToFindMaxSum(triangle)
 
 
   }
