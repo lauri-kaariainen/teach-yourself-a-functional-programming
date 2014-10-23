@@ -1,8 +1,8 @@
-//package euler
+package euler
 //println(ProjectEuler.problem2)
 //println(ProjectEuler.problem4)
 //println(ProjectEuler.problem9)
-println(ProjectEuler.problem18)
+//println(ProjectEuler.problem18)
 object ProjectEuler {
   
   /*
@@ -179,7 +179,45 @@ object ProjectEuler {
    * rows:
    */
   def problem18(triangle: List[List[Int]]): Int = {
-    1
+
+    def recursiveTravel(depth:Int,width:Int,counter:Int,route:Int):Int={
+      if(depth == triangle.length){
+        counter
+      }
+      else{
+
+        var newWidth = 0
+        if((route & (1 << (triangle.length - 2 - depth))) == 0){
+            newWidth = width
+        }
+        else
+          newWidth = width + 1
+        recursiveTravel(depth+1,newWidth,counter+triangle(depth)(width),route)
+      }
+    }
+
+
+    def travel(route:Int,highscore:Int):Int = {
+      if(route == (1 << triangle.length-1)){
+      //  println("returning highscore: "+highscore)
+        highscore
+      }
+      //  println(route +":"+(1 << (triangle.length-1)))
+      else{
+        var newHigh = 0
+        val newScore = recursiveTravel(0,0,0,route)
+        if(highscore > newScore){
+          newHigh = highscore
+        }
+        else{
+          newHigh = newScore
+        //  println("highest route was "+route)
+        }
+        travel(route + 1,newHigh)
+      }
+    }
+    travel(0,0)
+
   }
 
   /*
