@@ -97,68 +97,62 @@ object ProjectEuler {
    * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
    * Find the product abc.
    */
-  def problem9(): Int = {
+ def problem9(): Int = {
     def isPythagoreanTriplet(lista:List[Int]):Boolean = {
       val a = lista(0)
       val b = lista(1)
-      val c = lista(2)
+      val c = math.sqrt(a*a+b*b).toInt
       a < b && b < c && (a*a + b*b) == (c*c)
     }
-    
+
     def isSpecialTriplet(lista:List[Int]):Boolean = {
       val a = lista(0)
       val b = lista(1)
-      val c = lista(2)  
+      val c = math.sqrt(a*a+b*b).toInt
       a + b + c == 1000
     }
-    
-    
+
+
     def findProduct():Int={
-      def findTriplet(a:Int,b:Int,c:Int):List[Int]={
-        if(isSpecialTriplet(List(a,b,c)) && isPythagoreanTriplet(List(a,b,c)))
-          List(a,b,c)
+      def findTriplet(a:Int,b:Int,runTimes:Long):List[Int]={
+        if(isSpecialTriplet(List(a,b)) && isPythagoreanTriplet(List(a,b))){
+         // println("run "+runTimes+" times")
+          List(a,b,math.sqrt(a*a+b*b).toInt)
+        }
         else if(a > 333){
             List(0,0,0)
         }
         else {
-          var aa = 0
-          var bb = 0
-          var cc = 0
-          //c rolled over
-          if(c > 699){
-             aa = a
-             bb = b+1
-             cc = 0
-
-          }
+          
           //b rolled over
-          else if(b > 699){
-               aa = a+1
-               bb = 0
-               cc = 0
+          if(b > 500){
+              val aa = a+1
+              val bb = aa+1
+              findTriplet(aa,bb,runTimes+1)
           }
           else{
-             aa = a
-             bb = b
-             cc = c+1
+            val aa = a
+            val bb = b+1
+            findTriplet(aa,bb,runTimes+1)
           }
-          
-          findTriplet(aa,bb,cc)      
-        }
-        
-      }
-        
-      
-      
-      val pythList = findTriplet(0,0,0)
-      pythList(0) * pythList(1) * pythList(2)
-      
-    }
-    
-    findProduct()
-    
 
-    
+          
+        }
+
+      }
+
+
+
+      val pythList = findTriplet(0,0,0)
+      //println(pythList)
+	pythList(0) * pythList(1) * pythList(2)
+
+    }
+
+    findProduct()
+
+
+
   }
 
 
